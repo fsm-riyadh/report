@@ -3265,9 +3265,9 @@ function wkZoneSum(U){   // «ملخص المناطق» for the chosen period, w
   let h = `<div class="scroll" dir="ltr"><table class="pv zs"><tr><th>Week</th><th>Zone</th><th>Active Teams</th>${COLS.map(c => `<th>${c[0]}</th>`).join('')}<th>Total</th></tr>`;
   for (const [w, wr] of WS){
     const L = wkWL(w), G = new Map(); for (const r of wr){ const z = zfZone(r); (G.get(z) || G.set(z, []).get(z)).push(r); }
-    const zs = [...G.keys()].sort((a, b) => zk(a) < zk(b) ? -1 : 1), n = 2 * zs.length + (zs.length > 1 ? 2 : 0);
+    const zs = [...G.keys()].sort((a, b) => zk(a) < zk(b) ? -1 : 1), tt = zs.length > 1 || WS.length > 1, n = 2 * zs.length + (tt ? 2 : 0);   // week Total always when there are several weeks (it separates them)
     zs.forEach((z, i) => { h += blk(i ? '' : `<td class="zn wkc" rowspan="${n}"><b>${L.n}</b><br><small style="font-weight:400">${L.r}${L.part ? ' *' : ''}</small></td>`, z, G.get(z), '', L.n + ' · ' + z); });
-    if (zs.length > 1) h += blk('', 'Total', wr, 'wkt', L.n);
+    if (tt) h += blk('', 'Total', wr, 'wkt', L.n);
   }
   if (WS.length > 1) h += blk('', 'Grand Total', use, 'zsall', 'Grand Total', 1);
   return h + '</table></div>';
